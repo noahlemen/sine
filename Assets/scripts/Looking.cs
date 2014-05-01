@@ -43,6 +43,10 @@ public class Looking : MonoBehaviour {
 				}
 			}
 
+			if (Input.GetMouseButtonDown(1)){
+				Destroy(itemHolding);
+				DropThing();
+			}
 
 		}else if (Physics.Raycast(ray, out hit, 5f, 1 << 8)){
 			reticule.color = select;
@@ -87,7 +91,7 @@ public class Looking : MonoBehaviour {
 	}
 
 	void MakeNewThing(){
-		GameObject newthing = Instantiate(blueprint, transform.position + Vector3.up, Quaternion.identity) as GameObject;
+		GameObject newthing = Instantiate(blueprint, transform.position + Vector3.up * 2f, Quaternion.identity) as GameObject;
 
 		PickupThing(newthing);
 	}
