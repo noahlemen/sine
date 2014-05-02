@@ -6,6 +6,7 @@ public class Cube : MonoBehaviour {
 	Vector3 lastScale;
 	Sine sine;
 	AudioSource emitter;
+	bool isQuitting;
 
 	public AnimationCurve envelope;
 	public GameObject destroyparticles;
@@ -89,7 +90,12 @@ public class Cube : MonoBehaviour {
 		}
 	}
 
+	void OnApplicationQuit(){
+		isQuitting = true;
+	}
+
 	void OnDestroy(){
+		if (isQuitting) return;
 		GameObject particles = Instantiate(destroyparticles, transform.position, destroyparticles.transform.rotation) as GameObject;
 		particles.transform.localScale = transform.localScale;
 		particles.particleSystem.startSize = transform.localScale.x/5f;

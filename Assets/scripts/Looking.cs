@@ -98,7 +98,7 @@ public class Looking : MonoBehaviour {
 	}
 
 	void ScaleHeldThing(){
-		itemHolding.transform.localScale += Vector3.one * Input.GetAxis("Mouse ScrollWheel");
+		itemHolding.transform.localScale += Vector3.one * (Input.GetAxis("Mouse ScrollWheel") + Input.GetAxis("Alt Scroll"));
 	}
 
 	void OnControllerColliderHit(ControllerColliderHit hit){
