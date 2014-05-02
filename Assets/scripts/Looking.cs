@@ -81,13 +81,14 @@ public class Looking : MonoBehaviour {
 
 	void HoldThing(){
 		Vector3 targetPoint = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height / 2, 0));
-		targetPoint += Camera.main.transform.forward * holdDistance;
+		targetPoint += Camera.main.transform.forward * holdDistance + GetComponent<CharacterController>().velocity.normalized;
 
 		Vector3 force = targetPoint - itemHolding.transform.position;
 
 		itemHolding.rigidbody.AddForce(force * 100f);
 
-		itemHolding.rigidbody.velocity *= Mathf.Min(1.0f, force.magnitude / 2);
+		itemHolding.rigidbody.velocity *= Mathf.Min(1.0f, force.magnitude / 2f);
+	
 	}
 
 	void MakeNewThing(){
@@ -98,5 +99,16 @@ public class Looking : MonoBehaviour {
 
 	void ScaleHeldThing(){
 		itemHolding.transform.localScale += Vector3.one * Input.GetAxis("Mouse ScrollWheel");
+	}
+
+	void OnControllerColliderHit(ControllerColliderHit hit){
+		Rigidbody r = hit.rigidbody;
+		
+		if (r == null || r.isKinematic) { return; }
+		if (hit.moveDirection.y < -0.3) { return; }
+		
+		Vector3 push = new Vector3(hit.moveDirection.x, 0, hit.moveDirection.z);
+		
+		r.velocity += push * 2f;
 	}
 }

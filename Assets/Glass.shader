@@ -15,7 +15,7 @@
 		
 		CGPROGRAM
 			#pragma surface surf BlinnPhong decal:add nolightmap
-			
+		
 			half _Shininess;
 			
 			struct Input {

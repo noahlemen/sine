@@ -8,6 +8,9 @@ public class Cube : MonoBehaviour {
 	AudioSource emitter;
 
 	public AnimationCurve envelope;
+	public GameObject destroyparticles;
+
+	public Color mincolor, maxcolor;
 
 	// Use this for initialization
 	void Start () {
@@ -42,7 +45,9 @@ public class Cube : MonoBehaviour {
 	}
 
 	Color GetColorByScale(){
-		return HSBColor.ToColor(HSBColor.Lerp(new HSBColor(.17f,1f,1f), new HSBColor(.83f, 1f, 1f), (transform.localScale.x - .25f)/1.25f));
+		//return HSBColor.ToColor(HSBColor.Lerp(new HSBColor(.17f,1f,1f), new HSBColor(.83f, 1f, 1f), (transform.localScale.x - .25f)/1.25f));
+		return HSBColor.ToColor(HSBColor.Lerp(HSBColor.FromColor(mincolor), HSBColor.FromColor(maxcolor), (transform.localScale.x - .25f)/1.25f));
+
 	}
 
 	void SetFreqByScale(){
@@ -82,6 +87,12 @@ public class Cube : MonoBehaviour {
 			transform.GetChild(0).renderer.material.color = Color.Lerp(flashcolor, c, t);
 			yield return 0;
 		}
+	}
+
+	void OnDestroy(){
+		GameObject particles = Instantiate(destroyparticles, transform.position, destroyparticles.transform.rotation) as GameObject;
+		particles.transform.localScale = transform.localScale;
+		particles.particleSystem.startSize = transform.localScale.x/5f;
 	}
 
 }

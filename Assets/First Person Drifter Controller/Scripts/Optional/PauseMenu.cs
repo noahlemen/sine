@@ -103,25 +103,27 @@ public class PauseMenu : MonoBehaviour
 	{
 		if( paused )
 		{
+			AudioListener.pause = true;
 			
 			if( !mouseSettings && !quitDialog)
 			{
 				DrawPauseMenuBG();
 				
 				// Resume game button
-				if(GUI.Button(new Rect(Screen.width/2 - buttonWidth/2, buttonHeight, buttonWidth, buttonHeight), "Resume", pauseMenuStyle))
+				if(GUI.Button(new Rect(Screen.width/2 - buttonWidth/2, buttonHeight*2, buttonWidth, buttonHeight), "Resume", pauseMenuStyle))
 				{
 					PauseGame();
 				}
 				
 				// Reset level button
-				if(GUI.Button(new Rect(Screen.width/2 - buttonWidth/2, buttonHeight*2, buttonWidth, buttonHeight), "Reset Level", pauseMenuStyle))
+				if(GUI.Button(new Rect(Screen.width/2 - buttonWidth/2, buttonHeight*3, buttonWidth, buttonHeight), "Reset", pauseMenuStyle))
 				{
-					print("Reset Level");
+					print("Reset");
 					PauseGame();
 					Application.LoadLevel(Application.loadedLevel);
 				}
-				
+
+				/*
 				// options button
 				if(GUI.Button(new Rect(Screen.width/2 - buttonWidth/2, buttonHeight*3, buttonWidth, buttonHeight), "Options", pauseMenuStyle))
 				{
@@ -133,6 +135,7 @@ public class PauseMenu : MonoBehaviour
 				{
 					quitDialog = true;
 				}
+				*/
 			}
 			else if( mouseSettings)
 			{
@@ -189,6 +192,7 @@ public class PauseMenu : MonoBehaviour
 				}
 			}
 		}
+		else { AudioListener.pause = false; }
 	}
 	
 	
