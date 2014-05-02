@@ -7,6 +7,9 @@ public class Cube : MonoBehaviour {
 	Sine sine;
 	AudioSource emitter;
 	bool isQuitting;
+	float targetVolume;
+
+	float tremPhase;
 
 	public AnimationCurve envelope;
 	public GameObject destroyparticles;
@@ -19,6 +22,8 @@ public class Cube : MonoBehaviour {
 		sine = GetComponent<Sine>();
 		sine.gain = 1f;
 		emitter = GetComponent<AudioSource>();
+		tremPhase = Random.Range(0f,1f);
+		targetVolume = 0f;
 	}
 
 	// Update is called once per frame
@@ -30,6 +35,15 @@ public class Cube : MonoBehaviour {
 			SetMassByScale();
 		}
 		lastScale = transform.localScale;
+
+		emitter.volume = Mathf.Lerp(emitter.volume, targetVolume, .1f);
+		
+		Color flashcolor = Color.Lerp(new Color(1f,1f,1f,0f), Color.white, emitter.volume);
+		transform.GetChild(0).renderer.material.color = flashcolor;
+
+		if (targetVolume == .1f){
+			emitter.volume += Mathf.Sin((Time.time+tremPhase)*10f)*.01f;
+		}
 
 	}
 
@@ -62,31 +76,27 @@ public class Cube : MonoBehaviour {
 	void OnCollisionEnter(Collision c){
 		if (c.gameObject.tag != "Player"){
 			Debug.Log(rigidbody.velocity.magnitude);
-			StartCoroutine(PulseSound());
-			StartCoroutine(FlashWhite());
+			emitter.volume = Mathf.Lerp(.5f,1f,rigidbody.velocity.magnitude/14f);
+			targetVolume = .1f;
 		}
 	}
 
-	IEnumerator PulseSound(){
-		float t = 0;
-		sine.gain = Mathf.Lerp(.5f,1f,rigidbody.velocity.magnitude/14f);
-		while (t < 1f){
-			emitter.volume = envelope.Evaluate(t);
-			t += Time.deltaTime;
-			yield return 0;
+	void OnTriggerEnter(Collider c){
+		if (c.gameObject.tag == "Player"){
+			emitter.volume = 1f;
 		}
 
 	}
 
-	IEnumerator FlashWhite(){
-		Color c = new Color(1f,1f,1f,0f);
-		Color flashcolor = Color.Lerp(c, Color.white, rigidbody.velocity.magnitude/14f);
-		float t = 0f;
-		transform.GetChild(0).renderer.material.color = flashcolor;
-		while(t<1f){
-			t += Time.deltaTime;
-			transform.GetChild(0).renderer.material.color = Color.Lerp(flashcolor, c, t);
-			yield return 0;
+	void OnCollisionStay(Collision c){
+		if (c.gameObject.tag == "Level"){
+			targetVolume = .1f;
+		}
+	}
+
+	void OnCollisionExit(Collision c){
+		if (c.gameObject.tag != "Player"){
+			targetVolume = 0f;
 		}
 	}
 
