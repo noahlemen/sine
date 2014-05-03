@@ -10,6 +10,8 @@ public class tutorialText : MonoBehaviour {
 
 	private bool ending = false;
 
+	private bool DONE = false;
+
 	// Use this for initialization
 	void Start () {
 		guiText.text = text;
@@ -18,6 +20,7 @@ public class tutorialText : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (DONE) return;
 		if (PauseMenu.paused){
 			guiText.enabled = false;
 			return;
@@ -56,6 +59,7 @@ public class tutorialText : MonoBehaviour {
 			yield return 0;
 		}
 		guiText.enabled = false;
+		DONE = true;
 		yield return new WaitForSeconds(.25f);
 		if (nextTut != null) Instantiate(nextTut);
 		Destroy(gameObject);

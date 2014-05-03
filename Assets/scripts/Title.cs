@@ -5,11 +5,15 @@ public class Title : MonoBehaviour {
 
 	public MouseLook[] mouseScripts;
 	public FirstPersonDrifter drifter;
+	public GUIText reticule;
 
 	public GameObject firstTut;
 
+	private bool DONE = false;
+
 	// Use this for initialization
 	void Start () {
+		reticule.enabled = false;
 		foreach (MouseLook l in mouseScripts){
 			l.enabled = false;
 		}
@@ -18,6 +22,7 @@ public class Title : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (DONE) return;
 
 		if (Time.timeSinceLevelLoad < 2f){
 			guiText.enabled = true;
@@ -48,8 +53,10 @@ public class Title : MonoBehaviour {
 			yield return 0;
 		}
 		guiText.enabled = false;
+		DONE = true;
 		yield return new WaitForSeconds(.5f);
 		Instantiate(firstTut);
+		reticule.enabled = true;
 		Destroy(gameObject);
 	}
 }
