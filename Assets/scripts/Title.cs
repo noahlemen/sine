@@ -23,8 +23,12 @@ public class Title : MonoBehaviour {
 			guiText.enabled = true;
 			if (PauseMenu.paused)
 				guiText.enabled = false;
-		}else
-			StartCoroutine(fadeText());
+		}else{
+			if (Input.anyKey || Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
+				StartCoroutine(fadeText());
+
+		}
+
 	}
 
 	IEnumerator fadeText(){
@@ -39,7 +43,7 @@ public class Title : MonoBehaviour {
 			yield return 0;
 		}
 		guiText.enabled = false;
-		yield return new WaitForSeconds(.25f);
+		yield return new WaitForSeconds(.5f);
 		Instantiate(firstTut);
 		Destroy(gameObject);
 	}

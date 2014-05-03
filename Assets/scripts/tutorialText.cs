@@ -8,6 +8,8 @@ public class tutorialText : MonoBehaviour {
 	public string axis;
 	public GameObject nextTut;
 
+	private bool ending = false;
+
 	// Use this for initialization
 	void Start () {
 		guiText.text = text;
@@ -21,14 +23,14 @@ public class tutorialText : MonoBehaviour {
 		}else{
 			guiText.enabled = true;
 		}
-		if (Input.GetKeyDown(endtrigger)){
+		if (Input.GetKeyDown(endtrigger) && !ending){
 			StartCoroutine(fadeText());
 		}
 		if (axis != ""){
-			if (Input.GetAxis(axis) != 0f){
+			if (Input.GetAxis(axis) != 0f && !ending){
 				StartCoroutine(fadeText());
 			}
-			if (Input.GetAxis("Alt Scroll") != 0f){
+			if (Input.GetAxis("Alt Scroll") != 0f && !ending){
 				StartCoroutine(fadeText());
 			}
 		}
@@ -36,6 +38,7 @@ public class tutorialText : MonoBehaviour {
 	}
 
 	IEnumerator fadeText(){
+		ending = true;
 		float t = 1f;
 		while (t > 0f){
 			guiText.color = new Color(guiText.color.r, guiText.color.g, guiText.color.b, t);
