@@ -13,6 +13,7 @@ public class tutorialText : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		guiText.text = text;
+		StartCoroutine(fadeInText());
 	}
 	
 	// Update is called once per frame
@@ -35,6 +36,15 @@ public class tutorialText : MonoBehaviour {
 			}
 		}
 
+	}
+
+	IEnumerator fadeInText(){
+		float t = 0f;
+		while (t < 1f){
+			guiText.color = new Color(guiText.color.r, guiText.color.g, guiText.color.b, t);
+			t += Time.deltaTime * 3f;
+			yield return 0;
+		}
 	}
 
 	IEnumerator fadeText(){

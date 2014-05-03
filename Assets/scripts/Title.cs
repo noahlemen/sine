@@ -21,13 +21,18 @@ public class Title : MonoBehaviour {
 
 		if (Time.timeSinceLevelLoad < 2f){
 			guiText.enabled = true;
-			if (PauseMenu.paused)
-				guiText.enabled = false;
+
+
 		}else{
 			if (Input.anyKey || Input.GetAxis("Mouse X") != 0f || Input.GetAxis("Mouse Y") != 0f)
 				StartCoroutine(fadeText());
 
 		}
+
+		if (PauseMenu.paused)
+			guiText.enabled = false;
+		else
+			guiText.enabled = true;
 
 	}
 
@@ -39,7 +44,7 @@ public class Title : MonoBehaviour {
 		float t = 1f;
 		while (t > 0f){
 			guiText.color = new Color(guiText.color.r, guiText.color.g, guiText.color.b, t);
-			t -= Time.deltaTime;
+			t -= Time.deltaTime*.65f;
 			yield return 0;
 		}
 		guiText.enabled = false;
