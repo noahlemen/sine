@@ -6,7 +6,7 @@ using System.Collections;
 public class CameraFadeOnStart : MonoBehaviour
 {
 	public bool fadeInWhenSceneStarts = true;
-	public Color fadeColor = Color.black;
+	public Color fadeColor = Color.white;
 	public float fadeTime = 5f;
 
 	void Awake ()
