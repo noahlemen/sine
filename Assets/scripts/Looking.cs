@@ -54,6 +54,8 @@ public class Looking : MonoBehaviour {
 			if (Input.GetMouseButtonDown(0)){
 				PickupThing(hit.collider.gameObject);
 				holdtimer = 0;
+			}else if (Input.GetMouseButtonDown(1)){
+				Destroy(hit.collider.gameObject);
 			}
 		}else{
 			reticule.color = neutral;
