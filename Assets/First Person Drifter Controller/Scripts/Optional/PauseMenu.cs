@@ -15,6 +15,8 @@ using System.Collections;
 public class PauseMenu : MonoBehaviour
 {
 	public static bool paused = false;
+
+	public static bool resetting = false;
 	
 	public float minFOV = 45.0f;
 	public float maxFOV = 100.0f;
@@ -53,6 +55,7 @@ public class PauseMenu : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
+		resetting = false;
 		//set button dimensions
 		SetButtonDimensions();
 		// just making this shit up
@@ -120,6 +123,7 @@ public class PauseMenu : MonoBehaviour
 				{
 					print("Reset");
 					PauseGame();
+					resetting = true;
 					Application.LoadLevel(Application.loadedLevel);
 				}
 

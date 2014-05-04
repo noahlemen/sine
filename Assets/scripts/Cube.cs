@@ -108,7 +108,7 @@ public class Cube : MonoBehaviour {
 	}
 
 	void OnDestroy(){
-		if (isQuitting) return;
+		if (isQuitting || PauseMenu.resetting) return;
 		Camera.main.audio.PlayOneShot(removecube, .25f);
 		GameObject particles = Instantiate(destroyparticles, transform.position, destroyparticles.transform.rotation) as GameObject;
 		particles.transform.localScale = transform.localScale;
