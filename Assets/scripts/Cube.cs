@@ -20,7 +20,7 @@ public class Cube : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Camera.main.audio.PlayOneShot(makecube, .25f);
+		Camera.main.audio.PlayOneShot(makecube, .3f);
 		lastScale = Vector3.zero;
 		sine = GetComponent<Sine>();
 		sine.gain = 1f;
@@ -109,7 +109,7 @@ public class Cube : MonoBehaviour {
 
 	void OnDestroy(){
 		if (isQuitting || PauseMenu.resetting) return;
-		Camera.main.audio.PlayOneShot(removecube, .25f);
+		Camera.main.audio.PlayOneShot(removecube, .3f);
 		GameObject particles = Instantiate(destroyparticles, transform.position, destroyparticles.transform.rotation) as GameObject;
 		particles.transform.localScale = transform.localScale;
 		particles.particleSystem.startSize = transform.localScale.x/5f;
